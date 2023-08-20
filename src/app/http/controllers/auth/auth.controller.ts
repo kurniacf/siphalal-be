@@ -14,7 +14,14 @@ export class AuthController {
         private jwtService: JwtService
     ) {}
 
-    @Get('login')
+    @Get('check')
+    async check(): Promise<any> {
+        return {
+            message: 'Auth controller is working'
+        };
+    }
+
+    @Post('login')
     async login(@Body() body: LoginDto): Promise<{token: string}> {
 
         const {email, password} = body;
