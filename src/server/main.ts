@@ -9,6 +9,9 @@ async function bootstrap() {
         console.log("This is siphalal service");
         return res.send("This is siphalal service");
     });
-    await app.listen(3000);
+    await app.listen(3000, () => {
+        console.log("Server is running on port 3000");
+    });
+    
 }
 bootstrap();
