@@ -21,6 +21,10 @@ export class UserRepository implements IUserRepository {
         return this.userSchema.findOne({email: email});
     }
 
+    async findById(id: string): Promise<any> {
+        return this.userSchema.findById(id);
+    }
+
     async insertMany(dataUsers: any[]): Promise<any> {
         return this.userSchema.insertMany(dataUsers);
     }
