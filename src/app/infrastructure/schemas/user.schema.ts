@@ -6,6 +6,8 @@ export type UserDocument = HydratedDocument<UserModelType>;
 
 @Schema({ timestamps: true })
 export class User implements UserModelType {
+    _id: string;    
+
     @Prop({ required: true })
     username: string;
 
@@ -35,6 +37,9 @@ export class User implements UserModelType {
 
     @Prop({ required: false })
     tokensLogin: string;
+
+    @Prop({ required: false })
+    tokenForgotPassword: string;
 
     @Prop({ required: true })
     createdAt: Date;
