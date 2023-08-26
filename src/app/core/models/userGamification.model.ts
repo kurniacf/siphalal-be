@@ -6,6 +6,7 @@ export type UserGamificationType = {
     totalCoints: number;
     assignedUmkmCount: number;
     availabilityStatus:  number;
+    userId: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -19,6 +20,7 @@ export class UserGamificationModel implements UserGamificationType {
         totalCoints: number;
         assignedUmkmCount: number;
         availabilityStatus:  number;
+        userId: string;
         createdAt: Date;
         updatedAt: Date;
     

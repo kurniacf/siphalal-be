@@ -6,6 +6,7 @@ import { ConfigService } from "@nestjs/config";
 import {MiddlewareConsumer, RequestMethod, NestModule} from "@nestjs/common";
 import {ApiTokenCheckMiddleware} from "@app/http/middleware/apiTokenCheck.middleware";
 import { UtilModule } from "@app/utils/util.module";
+import { XPController } from "./controllers/xp/xp.controller";
 
 @Module({
     imports: [
@@ -22,7 +23,8 @@ import { UtilModule } from "@app/utils/util.module";
         UtilModule
     ],
     controllers: [
-        AuthController
+        AuthController,
+        XPController
     ],
 })
 
