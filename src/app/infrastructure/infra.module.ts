@@ -20,6 +20,7 @@ import { SedekahSchema } from "@app/infrastructure/schemas/sedekah.schema";
 import { StatusSertifikasiSchema } from "@app/infrastructure/schemas/statusSertifikasi.schema";
 import { SurgaKulinerSchema } from "@app/infrastructure/schemas/surgaKuliner.schema";
 import { UMKMSchema } from "@app/infrastructure/schemas/umkm.schema";
+import { UserGamificationRepository } from "./repository/userGamification.repository";
 
 @Module({
     imports: [
@@ -52,7 +53,12 @@ import { UMKMSchema } from "@app/infrastructure/schemas/umkm.schema";
         {
             provide: "IDaftarPermintaanSertifikasiQuery",
             useClass: DaftarPermintaanSertifikasiQuery
-        }
+        },
+        UserGamificationRepository,
+        {
+            provide: "IUserGamificationRepository",
+            useClass: UserGamificationRepository
+        },
     ],
     exports: [
         UserRepository,
@@ -64,7 +70,12 @@ import { UMKMSchema } from "@app/infrastructure/schemas/umkm.schema";
         {
             provide: "IDaftarPermintaanSertifikasiQuery",
             useClass: DaftarPermintaanSertifikasiQuery
-        }
+        },
+        UserGamificationRepository,
+        {
+            provide: "IUserGamificationRepository",
+            useClass: UserGamificationRepository
+        },
     ]
 })
 export class InfrastructureModule {}

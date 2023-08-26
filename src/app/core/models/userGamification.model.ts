@@ -1,3 +1,4 @@
+import { PreconditionFailedException } from "@nestjs/common"
 export type UserGamificationType = {
     currentXp: number;
     currentRank: number;
@@ -62,5 +63,11 @@ export class UserGamificationModel implements UserGamificationType {
     
         getAvailabilityStatus() {
             return this.availabilityStatus;
+        }
+
+        addCurrentXP(xp: number) {
+            if(xp <= 0)
+                throw new PreconditionFailedException('Index out of bounds, XP must be a positive number.');
+            this.currentXp = this.currentXp + xp;
         }
 }
