@@ -17,7 +17,7 @@ export class AuthController {
         private mailerUtil: MailerUtil
     ) {}
 
-    @Get('check')
+    @Get()
     async check(): Promise<any> {
         return {
             message: 'Auth controller is working'
@@ -98,9 +98,9 @@ export class AuthController {
     }
     
     @Post('forgot-password')
-    async forgotPassword(@Request() req): Promise<any> {
-        const {new_password} = req.body;
-        const user = await this.userRepository.findByEmail(req.user.email);
+    async forgotPassword(@Body() body: any): Promise<any> {
+        const {new_password, email} = body;
+        const user = await this.userRepository.findByEmail(email);
         if (!user) {
             throw new HttpException('User not found', 404);
         }

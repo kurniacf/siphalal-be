@@ -1,7 +1,9 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
 import { UserRepository } from "./repository/user.repository";
+import {DaftarPermintaanSertifikasiQuery} from "./query/daftarPermintaanSertifikasi.query";
 import { CoreModule } from "@app/core/core.module";
+
 import { UserSchema } from "./schemas/user.schema";
 import { UserGamificationSchema } from "@app/infrastructure/schemas/userGamification.schema";
 import { MissionSchema } from "@app/infrastructure/schemas/mission.schema";
@@ -40,10 +42,12 @@ import { UMKMSchema } from "@app/infrastructure/schemas/umkm.schema";
         ])
     ],
     providers: [
-        UserRepository
+        UserRepository,
+        DaftarPermintaanSertifikasiQuery
     ],
     exports: [
-        UserRepository
+        UserRepository,
+        DaftarPermintaanSertifikasiQuery
     ]
 })
 export class InfrastructureModule {}
