@@ -1,5 +1,8 @@
 import {Module} from "@nestjs/common";
 import { AuthController } from "./controllers/auth/auth.controller";
+import { SertifikasiController } from "./controllers/sertifikasi/sertifikasi.controller";
+import { TestController } from "./controllers/auth/test.controller";
+
 import { InfrastructureModule } from "@app/infrastructure/infra.module";
 import { JwtModule } from "@nestjs/jwt/dist/jwt.module";
 import { ConfigService } from "@nestjs/config";
@@ -22,10 +25,11 @@ import { UtilModule } from "@app/utils/util.module";
         UtilModule
     ],
     controllers: [
-        AuthController
+        AuthController,
+        SertifikasiController,
+        TestController
     ],
 })
-
 export class HttpModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
@@ -35,8 +39,12 @@ export class HttpModule implements NestModule {
             .exclude(
                 { path: 'auth/login', method: RequestMethod.POST },
                 { path: 'auth/register', method: RequestMethod.POST },
+                { path: 'auth/forgot-password', method: RequestMethod.POST },
                 { path: 'auth/reset-password', method: RequestMethod.GET },
             )
-            .forRoutes({ path: '*', method: RequestMethod.ALL });
+            .forRoutes(
+                AuthController,
+                SertifikasiController,
+            );
     }
 }

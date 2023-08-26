@@ -18,10 +18,7 @@ import { ConfigService } from '@nestjs/config';
             isGlobal: true,
         }),
         PassportModule.register({ defaultStrategy: 'jwt' }),
-        HttpModule,
+        HttpModule
     ],
-    controllers: [
-    ],
-    providers: []
 })
 export class AppModule {}
