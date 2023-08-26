@@ -1,9 +1,11 @@
-import { Controller, Get, Param } from "@nestjs/common";
+import { IUserGamificationRepository } from "@app/core/repository/userGamificatino.repository.interface";
+import { Controller, Get, Param, Inject, Put, Body } from "@nestjs/common";
 
 @Controller('xp')
 export class XPController {
     constructor(
-        
+        @Inject('IUserGamificationRepository')
+        private readonly userGamificationRepository: IUserGamificationRepository
     ){}
 
     @Get()
@@ -14,8 +16,16 @@ export class XPController {
     }
 
     @Get(':user_id')
-    async getXPByUserID(@Param() user_id: string): Promise<any>{
+    async getXPByUserID(@Param() params: any): Promise<any>{
+        return this.userGamificationRepository.findByUserId(params.user_id);
+    }
 
+    @Put(':user_id')
+    async updateXP(@Param() params: any, @Body() body): Promise<any>{
+        const userGamification = await this.userGamificationRepository.findByUserId(params.user_id);
+        const { addXP } = body;
+        userGamification.currentXp += addXP;
+        this.userGamificationRepository.save(userGamification);
     }
 
 }

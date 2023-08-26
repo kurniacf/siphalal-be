@@ -4,7 +4,7 @@ import { UserGamificationModel } from "@app/core/models/userGamification.model";
 import { InjectModel } from "@nestjs/mongoose";
 import { UserGamification } from "../schemas/userGamification.schema";
 @Injectable()
-export class userGamificationRepository implements IUserGamificationRepository {
+export class UserGamificationRepository implements IUserGamificationRepository {
     constructor(
         @InjectModel(UserGamification.name)
         private readonly userGamificationSchema: any
