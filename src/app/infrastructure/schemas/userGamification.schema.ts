@@ -35,7 +35,7 @@ export class UserGamification implements UserGamificationType {
     updatedAt: Date;
 
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
-    userId: User;
+    userId: string;
 }
 
 export const UserGamificationSchema = SchemaFactory.createForClass(UserGamification);
