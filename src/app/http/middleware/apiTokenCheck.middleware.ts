@@ -11,7 +11,6 @@ export class ApiTokenCheckMiddleware implements NestMiddleware {
     use(@Request() req , res: Response, next: ()=>void) {
         //get header barear token
         const bearerToken = req.headers.authorization;
-        console.log('bearerToken', bearerToken);
         if(!bearerToken) {
             throw new BadRequestException('Token not found');
         }
