@@ -1,18 +1,20 @@
 import { Controller, Post, Get, Body, Query } from "@nestjs/common";
-import { UserRepository } from "@app/infrastructure/repository/user.repository";
+// import { UserRepository } from "@app/infrastructure/repository/user.repository";
+import { IUserRepository } from "@app/core/repository/user.repository.interface";
 import { UserModel } from "@app/core/models/user.model";
 import { JwtService } from "@nestjs/jwt/dist";
 import * as bcrypt from 'bcrypt';
 import { LoginDto } from "@app/http/validation/auth/loginDto";
 import { RegisterDto } from "@app/http/validation/auth/registerDto";
 import { HttpException, UnauthorizedException } from "@nestjs/common";
-import { Request } from '@nestjs/common';
+import { Request, Inject } from '@nestjs/common';
 import { MailerUtil } from '@app/utils/mailer.util';
 
 @Controller('auth')
 export class AuthController {
     constructor(
-        private readonly userRepository: UserRepository,
+        @Inject("IUserRepository")
+        private readonly userRepository: IUserRepository,
         private jwtService: JwtService,
         private mailerUtil: MailerUtil
     ) {}

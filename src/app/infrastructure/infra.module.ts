@@ -4,6 +4,7 @@ import { UserRepository } from "./repository/user.repository";
 import {DaftarPermintaanSertifikasiQuery} from "./query/daftarPermintaanSertifikasi.query";
 import { CoreModule } from "@app/core/core.module";
 
+//schemas
 import { UserSchema } from "./schemas/user.schema";
 import { UserGamificationSchema } from "@app/infrastructure/schemas/userGamification.schema";
 import { MissionSchema } from "@app/infrastructure/schemas/mission.schema";
@@ -43,11 +44,27 @@ import { UMKMSchema } from "@app/infrastructure/schemas/umkm.schema";
     ],
     providers: [
         UserRepository,
-        DaftarPermintaanSertifikasiQuery
+        {
+            provide: "IUserRepository",
+            useClass: UserRepository
+        },
+        DaftarPermintaanSertifikasiQuery,
+        {
+            provide: "IDaftarPermintaanSertifikasiQuery",
+            useClass: DaftarPermintaanSertifikasiQuery
+        }
     ],
     exports: [
         UserRepository,
-        DaftarPermintaanSertifikasiQuery
+        {
+            provide: "IUserRepository",
+            useClass: UserRepository
+        },
+        DaftarPermintaanSertifikasiQuery,
+        {
+            provide: "IDaftarPermintaanSertifikasiQuery",
+            useClass: DaftarPermintaanSertifikasiQuery
+        }
     ]
 })
 export class InfrastructureModule {}
