@@ -10,6 +10,7 @@ import {MiddlewareConsumer, RequestMethod, NestModule} from "@nestjs/common";
 import {ApiTokenCheckMiddleware} from "@app/http/middleware/apiTokenCheck.middleware";
 import { UtilModule } from "@app/utils/util.module";
 import { XPController } from "./controllers/xp/xp.controller";
+import { ProfileController } from "./controllers/profile/profile.controller";
 
 @Module({
     imports: [
@@ -29,7 +30,8 @@ import { XPController } from "./controllers/xp/xp.controller";
         AuthController,
         XPController,
         SertifikasiController,
-        TestController
+        TestController,
+        ProfileController
     ],
 })
 export class HttpModule implements NestModule {
