@@ -34,8 +34,7 @@ import { ProfileController } from "./controllers/profile/profile.controller";
         XPController,
         SertifikasiController,
         TestController,
-        StatusSertifikasiController
-        TestController,
+        StatusSertifikasiController,
         ProfileController
     ],
 })
