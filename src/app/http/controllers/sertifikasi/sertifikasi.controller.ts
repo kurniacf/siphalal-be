@@ -1,6 +1,7 @@
 import { Controller, Post, Get, Body, Query, Param } from "@nestjs/common";
 import { HttpException, UnauthorizedException, Inject } from "@nestjs/common";
 import { IDaftarPermintaanSertifikasiQuery } from "@app/application/query/daftarPermintaanSertifikasiInterface.query";
+import { Request } from "@nestjs/common";
 
 @Controller('sertifikasi')
 export class SertifikasiController {
@@ -17,9 +18,12 @@ export class SertifikasiController {
         };
     }
 
-    @Get(':user_id')
-    async daftarPermintaanSertifikasi(@Param() params: any): Promise<any> {
-        console.log(params);
-        return this.daftarPermintaanSertifikasiQuery.execute(params.user_id);
+    @Get('history')
+    async daftarPermintaanSertifikasi(@Request() req): Promise<any> {
+        const user = req.user;
+        return this.daftarPermintaanSertifikasiQuery.execute(user.user_id);
     }
+
+    @Get('history/:id')
+    async detailPermintaanSertifikasi(@Param('id') id: string): Promise<any> {}
 }

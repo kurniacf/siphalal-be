@@ -1,11 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument, ObjectId } from 'mongoose';
-import { StatusSertifikasiType } from '@app/core/models/statusSertifikasi.model';
+import { StatusSertifikasiModel } from '@app/core/models/statusSertifikasi.model';
 
-export type StatusSertifikasiDocument = HydratedDocument<StatusSertifikasiType>;
+export type StatusSertifikasiDocument = HydratedDocument<StatusSertifikasiModel>;
 
 @Schema({ timestamps: true })
-export class StatusSertifikasi implements StatusSertifikasiType {
+export class StatusSertifikasi implements StatusSertifikasiModel {
+    _id: string;
+
     @Prop({ required: true })
     currentStatus: string;
     

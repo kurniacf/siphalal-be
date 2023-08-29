@@ -1,7 +1,5 @@
 import { Module } from "@nestjs/common";
 import { MongooseModule } from "@nestjs/mongoose";
-import { UserRepository } from "./repository/user.repository";
-import {DaftarPermintaanSertifikasiQuery} from "./query/daftarPermintaanSertifikasi.query";
 import { CoreModule } from "@app/core/core.module";
 
 //schemas
@@ -20,6 +18,11 @@ import { SedekahSchema } from "@app/infrastructure/schemas/sedekah.schema";
 import { StatusSertifikasiSchema } from "@app/infrastructure/schemas/statusSertifikasi.schema";
 import { SurgaKulinerSchema } from "@app/infrastructure/schemas/surgaKuliner.schema";
 import { UMKMSchema } from "@app/infrastructure/schemas/umkm.schema";
+
+//depedencies
+import { UserRepository } from "./repository/user.repository";
+import {DaftarPermintaanSertifikasiQuery} from "./query/daftarPermintaanSertifikasi.query";
+import { StatusSertifikasiRepository } from "./repository/statusSertifikasi.repository";
 
 @Module({
     imports: [
@@ -48,10 +51,13 @@ import { UMKMSchema } from "@app/infrastructure/schemas/umkm.schema";
             provide: "IUserRepository",
             useClass: UserRepository
         },
-        DaftarPermintaanSertifikasiQuery,
         {
             provide: "IDaftarPermintaanSertifikasiQuery",
             useClass: DaftarPermintaanSertifikasiQuery
+        },
+        {
+            provide: "IStatusSertifikasiRepository",
+            useClass: StatusSertifikasiRepository
         }
     ],
     exports: [
@@ -60,10 +66,13 @@ import { UMKMSchema } from "@app/infrastructure/schemas/umkm.schema";
             provide: "IUserRepository",
             useClass: UserRepository
         },
-        DaftarPermintaanSertifikasiQuery,
         {
             provide: "IDaftarPermintaanSertifikasiQuery",
             useClass: DaftarPermintaanSertifikasiQuery
+        },
+        {
+            provide: "IStatusSertifikasiRepository",
+            useClass: StatusSertifikasiRepository
         }
     ]
 })

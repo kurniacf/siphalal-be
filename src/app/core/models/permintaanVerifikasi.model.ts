@@ -1,4 +1,5 @@
-export type PermintaanVerifikasiType = {
+export type PermintaanVerifikasiModel = {
+    _id: string;
     status: string;
     startAjuanDate: Date;
     setujuAjuanDate: Date;
