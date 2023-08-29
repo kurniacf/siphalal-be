@@ -1,7 +1,4 @@
 import {Module} from "@nestjs/common";
-import { AuthController } from "./controllers/auth/auth.controller";
-import { SertifikasiController } from "./controllers/sertifikasi/sertifikasi.controller";
-import { TestController } from "./controllers/auth/test.controller";
 
 import { InfrastructureModule } from "@app/infrastructure/infra.module";
 import { JwtModule } from "@nestjs/jwt/dist/jwt.module";
@@ -9,7 +6,13 @@ import { ConfigService } from "@nestjs/config";
 import {MiddlewareConsumer, RequestMethod, NestModule} from "@nestjs/common";
 import {ApiTokenCheckMiddleware} from "@app/http/middleware/apiTokenCheck.middleware";
 import { UtilModule } from "@app/utils/util.module";
+
+//controllers
+import { AuthController } from "./controllers/auth/auth.controller";
+import { SertifikasiController } from "./controllers/sertifikasi/sertifikasi.controller";
 import { XPController } from "./controllers/xp/xp.controller";
+import { TestController } from "./controllers/auth/test.controller";
+import {StatusSertifikasiController} from "./controllers/sertifikasi/statusSertifikasi.controller";
 import { ProfileController } from "./controllers/profile/profile.controller";
 
 @Module({
@@ -31,6 +34,7 @@ import { ProfileController } from "./controllers/profile/profile.controller";
         XPController,
         SertifikasiController,
         TestController,
+        StatusSertifikasiController,
         ProfileController
     ],
 })

@@ -1,12 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument, ObjectId } from 'mongoose';
 import { User } from './user.schema';
-import { PermintaanVerifikasiType } from '@app/core/models/permintaanVerifikasi.model';
+import { PermintaanVerifikasiModel } from '@app/core/models/permintaanVerifikasi.model';
 
-export type PermintaanVerifikasiDocument = HydratedDocument<PermintaanVerifikasiType>;
+export type PermintaanVerifikasiDocument = HydratedDocument<PermintaanVerifikasiModel>;
 
 @Schema({ timestamps: true })
-export class PermintaanVerifikasi implements PermintaanVerifikasiType {
+export class PermintaanVerifikasi implements PermintaanVerifikasiModel {
+    _id: string;
+
     @Prop({ required: true })
     status: string;
 
