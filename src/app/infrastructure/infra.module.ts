@@ -23,6 +23,7 @@ import { UMKMSchema } from "@app/infrastructure/schemas/umkm.schema";
 import { UserRepository } from "./repository/user.repository";
 import {DaftarPermintaanSertifikasiQuery} from "./query/daftarPermintaanSertifikasi.query";
 import { StatusSertifikasiRepository } from "./repository/statusSertifikasi.repository";
+import { UserGamificationRepository } from "./repository/userGamification.repository";
 
 @Module({
     imports: [
@@ -58,7 +59,12 @@ import { StatusSertifikasiRepository } from "./repository/statusSertifikasi.repo
         {
             provide: "IStatusSertifikasiRepository",
             useClass: StatusSertifikasiRepository
-        }
+        },
+        UserGamificationRepository,
+        {
+            provide: "IUserGamificationRepository",
+            useClass: UserGamificationRepository
+        },
     ],
     exports: [
         UserRepository,
@@ -73,7 +79,12 @@ import { StatusSertifikasiRepository } from "./repository/statusSertifikasi.repo
         {
             provide: "IStatusSertifikasiRepository",
             useClass: StatusSertifikasiRepository
-        }
+        },
+        UserGamificationRepository,
+        {
+            provide: "IUserGamificationRepository",
+            useClass: UserGamificationRepository
+        },
     ]
 })
 export class InfrastructureModule {}

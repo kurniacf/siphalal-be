@@ -13,6 +13,7 @@ import { SertifikasiController } from "./controllers/sertifikasi/sertifikasi.con
 import { XPController } from "./controllers/xp/xp.controller";
 import { TestController } from "./controllers/auth/test.controller";
 import {StatusSertifikasiController} from "./controllers/sertifikasi/statusSertifikasi.controller";
+import { ProfileController } from "./controllers/profile/profile.controller";
 
 @Module({
     imports: [
@@ -34,6 +35,8 @@ import {StatusSertifikasiController} from "./controllers/sertifikasi/statusSerti
         SertifikasiController,
         TestController,
         StatusSertifikasiController
+        TestController,
+        ProfileController
     ],
 })
 export class HttpModule implements NestModule {
