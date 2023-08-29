@@ -24,6 +24,7 @@ import { UserRepository } from "./repository/user.repository";
 import {DaftarPermintaanSertifikasiQuery} from "./query/daftarPermintaanSertifikasi.query";
 import { StatusSertifikasiRepository } from "./repository/statusSertifikasi.repository";
 import { UserGamificationRepository } from "./repository/userGamification.repository";
+import { PictureRepository } from "./repository/picture.repository";
 
 @Module({
     imports: [
@@ -65,6 +66,11 @@ import { UserGamificationRepository } from "./repository/userGamification.reposi
             provide: "IUserGamificationRepository",
             useClass: UserGamificationRepository
         },
+        PictureRepository,
+        {
+            provide: "IPictureRepository",
+            useClass: PictureRepository
+        },
     ],
     exports: [
         UserRepository,
@@ -84,6 +90,11 @@ import { UserGamificationRepository } from "./repository/userGamification.reposi
         {
             provide: "IUserGamificationRepository",
             useClass: UserGamificationRepository
+        },
+        PictureRepository,
+        {
+            provide: "IPictureRepository",
+            useClass: PictureRepository
         },
     ]
 })

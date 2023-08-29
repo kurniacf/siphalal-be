@@ -1,15 +1,20 @@
-import { Controller, Post, Get, Body, Query, Put } from "@nestjs/common";
+import { Controller, Post, Get, Body, Query, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
 // import { UserRepository } from "@app/infrastructure/repository/user.repository";
 import { IUserRepository } from "@app/core/repository/user.repository.interface";
 import { JwtService } from "@nestjs/jwt/dist";
 import { Request, Inject, PreconditionFailedException } from '@nestjs/common';
 import { MailerUtil } from '@app/utils/mailer.util';
+import { IPictureRepository } from "@app/core/repository/picture.repository.interface";
+import { PictureModel } from "@app/core/models/picture.model";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @Controller('profile')
 export class ProfileController {
     constructor(
         @Inject("IUserRepository")
         private readonly userRepository: IUserRepository,
+        @Inject("IPictureRepository")
+        private readonly pictureRepository: IPictureRepository
     ) {}
 
     @Get()
@@ -59,5 +64,22 @@ export class ProfileController {
         return {
             username: user.name
         }
+    }
+
+    @Put('picture')
+    @UseInterceptors(FileInterceptor('file'))
+    async changeProfilePicture(@UploadedFile() file :any): Promise<any> {
+        const picture = new PictureModel(null, null, file.buffer , new Date(), null);
+        this.pictureRepository.save(picture);
+        return;
+    }
+
+    @Get('picture')
+    async getProfilePicture(@Body() body: any): Promise<PictureModel> {
+        console.log(body);
+        const { pictureId } = body;
+        console.log(pictureId);
+        const profilePicture = this.pictureRepository.findById(pictureId);
+        return profilePicture
     }
 }
