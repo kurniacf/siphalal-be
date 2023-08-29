@@ -32,6 +32,7 @@ export class PictureRepository implements IPictureRepository {
         // const picture = new PictureModel(imageMetadata, imageMetadata[1].secure_url, imageMetadata[1].created_at);
         // return picture;
         // return new PictureModel(null, null, null, null, null);
+        return null;
 
     }
     findByLink(link: string): PictureModel
