@@ -17,15 +17,43 @@ export class XPController {
 
     @Get(':user_id')
     async getXPByUserID(@Param() params: any): Promise<any>{
-        return this.userGamificationRepository.findByUserId(params.user_id);
+        try{
+            const userGamificationData = await this.userGamificationRepository.findByUserId(params.user_id);
+            return {
+                "xp" : userGamificationData.currentXp
+            }
+        }
+        catch{
+            return {
+                "message" : "User not found"
+            }
+        }
     }
 
     @Put(':user_id')
     async updateXP(@Param() params: any, @Body() body): Promise<any>{
         const userGamification = await this.userGamificationRepository.findByUserId(params.user_id);
         const { addXP } = body;
-        userGamification.currentXp += addXP;
-        this.userGamificationRepository.save(userGamification);
+        const addXPNum = parseInt(addXP)
+        if(Number.isNaN(addXPNum))
+        {
+            return {
+                "message" : "Operation Failed. Parameter was not a number."
+            } 
+        }
+        userGamification.currentXp += addXPNum;
+        try{
+            this.userGamificationRepository.save(userGamification);
+        }
+        catch{
+            return {
+                "message" : "Operation Failed."
+            }
+        }
+
+        return {
+            "message" : "Success."
+        }
     }
 
 }
