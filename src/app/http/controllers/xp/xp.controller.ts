@@ -1,5 +1,7 @@
 import { IUserGamificationRepository } from "@app/core/repository/userGamificatino.repository.interface";
 import { Controller, Get, Param, Inject, Put, Body } from "@nestjs/common";
+import { HttpStatus } from "@nestjs/common/enums";
+import { HttpException } from "@nestjs/common/exceptions";
 
 @Controller('xp')
 export class XPController {
@@ -24,9 +26,7 @@ export class XPController {
             }
         }
         catch{
-            return {
-                "message" : "User not found"
-            }
+            throw new HttpException('User not found', HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -37,18 +37,14 @@ export class XPController {
         const addXPNum = parseInt(addXP)
         if(Number.isNaN(addXPNum))
         {
-            return {
-                "message" : "Operation Failed. Parameter was not a number."
-            } 
+            throw new HttpException('XP was not a number', HttpStatus.BAD_REQUEST);
         }
         userGamification.currentXp += addXPNum;
         try{
             this.userGamificationRepository.save(userGamification);
         }
         catch{
-            return {
-                "message" : "Operation Failed."
-            }
+            throw new HttpException('Operation Failed.', HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return {
