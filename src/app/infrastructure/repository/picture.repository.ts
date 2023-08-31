@@ -1,8 +1,9 @@
 import { IPictureRepository } from "@app/core/repository/picture.repository.interface";
-import { Inject, Injectable } from "@nestjs/common";
+import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { PictureModel } from "@app/core/models/picture.model";
 import { v2 as cloudinary } from 'cloudinary';
 import { createReadStream } from "streamifier";
+
 @Injectable()
 export class PictureRepository implements IPictureRepository {
     constructor(
@@ -14,30 +15,23 @@ export class PictureRepository implements IPictureRepository {
 
     save(picture: PictureModel): null
     {
-        let cld_upload_stream = cloudinary.uploader.upload_stream(
-            {  folder: "foo" },
-            function(error, result) {
-                // console.log(error, result);
-            });
+        let cld_upload_stream = cloudinary.uploader.upload_stream({  folder: picture.filePath });
         createReadStream(picture.data).pipe(cld_upload_stream);
         return;
     }
 
-    findById(id: string): PictureModel
+    async findById(id : string): Promise<PictureModel>
     {
-        // let picture;
-        // const imageMetadata = cloudinary.api.resource(id).then((result));
-        // console.log(picture);
-        // console.log(imageMetadata);
-        // const picture = new PictureModel(imageMetadata, imageMetadata[1].secure_url, imageMetadata[1].created_at);
-        // return picture;
-        // return new PictureModel(null, null, null, null, null);
-        return null;
-
+        try{
+            const imageMetadata = await cloudinary.api.resource(id);
+            return new PictureModel(imageMetadata.asset_id, imageMetadata.secure_url, imageMetadata.created_at, imageMetadata.folder);
+        }
+        catch{
+            throw new NotFoundException('Image not found');
+        }
     }
-    findByLink(link: string): PictureModel
+    async findByLink(link: string): Promise<PictureModel>
     {
-        // const imageData = await cloudinary.api.search()
         return null;
     }
 }

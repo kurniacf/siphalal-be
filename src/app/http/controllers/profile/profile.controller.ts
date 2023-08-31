@@ -69,17 +69,15 @@ export class ProfileController {
     @Put('picture')
     @UseInterceptors(FileInterceptor('file'))
     async changeProfilePicture(@UploadedFile() file :any): Promise<any> {
-        const picture = new PictureModel(null, null, file.buffer , new Date(), null);
+        const picture = new PictureModel(null, null, new Date(), "foo", file.buffer);
         this.pictureRepository.save(picture);
         return;
     }
 
     @Get('picture')
     async getProfilePicture(@Body() body: any): Promise<PictureModel> {
-        console.log(body);
         const { pictureId } = body;
-        console.log(pictureId);
-        const profilePicture = this.pictureRepository.findById(pictureId);
+        const profilePicture = await this.pictureRepository.findById(pictureId);
         return profilePicture
     }
 }
