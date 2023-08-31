@@ -86,9 +86,19 @@ export class ProfileController {
     @Put('picture')
     @UseInterceptors(FileInterceptor('file'))
     async changeProfilePicture(@UploadedFile() file :any): Promise<any> {
+        if(!file.buffer) {
+            throw new HttpException('Image not sent.', HttpStatus.BAD_REQUEST);
+        }
         const picture = new PictureModel(null, null, new Date(), "foo", file.buffer);
-        this.pictureRepository.save(picture);
-        return;
+        try {
+            this.pictureRepository.save(picture);
+        }
+        catch {
+            throw new HttpException('Image not saved.', HttpStatus.NOT_MODIFIED);
+        }
+        return {
+            "message" : "Profile Picture Changed!"
+        };
     }
 
     @Get('picture')
