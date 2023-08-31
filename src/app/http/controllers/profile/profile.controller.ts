@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, Query, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
+import { Controller, Post, Get, Body, Query, Put, UploadedFile, UseInterceptors, NotFoundException, HttpStatus, HttpException } from "@nestjs/common";
 // import { UserRepository } from "@app/infrastructure/repository/user.repository";
 import { IUserRepository } from "@app/core/repository/user.repository.interface";
 import { JwtService } from "@nestjs/jwt/dist";
@@ -7,6 +7,7 @@ import { MailerUtil } from '@app/utils/mailer.util';
 import { IPictureRepository } from "@app/core/repository/picture.repository.interface";
 import { PictureModel } from "@app/core/models/picture.model";
 import { FileInterceptor } from "@nestjs/platform-express";
+import { UserModel } from "@app/core/models/user.model";
 
 @Controller('profile')
 export class ProfileController {
@@ -27,9 +28,17 @@ export class ProfileController {
     @Put('username')
     async changeUsername(@Body() body: any): Promise<any> {
         const { userId, newUsername } = body;
-        const user = await this.userRepository.findById(userId);
+        if(!userId || !newUsername)
+            throw new HttpException('Arguments invalid.', HttpStatus.BAD_REQUEST);
+        let user: UserModel;
+        try{
+            user = await this.userRepository.findById(userId);
+        }
+        catch{
+            throw new HttpException('user not found.', HttpStatus.NOT_FOUND);
+        }
         if(newUsername === user.username)
-            throw new PreconditionFailedException('new username is the same as the last');
+            throw new HttpException('New username is the same as the last', HttpStatus.BAD_REQUEST);
         user.username = newUsername;
         this.userRepository.save(user);
     }
@@ -37,9 +46,14 @@ export class ProfileController {
     @Get('username')
     async getUsername(@Body() body: any): Promise<any> {
         const { userId } = body;
-        const user = await this.userRepository.findById(userId);
-        if(!user)
-            return new PreconditionFailedException('Id does not match any user');
+        if(!userId)
+            throw new HttpException('Arguments invalid.', HttpStatus.BAD_REQUEST);
+        let user: UserModel;
+        try {
+            user = await this.userRepository.findById(userId);
+        } catch {
+            throw new PreconditionFailedException('Id does not match any user');
+        }
         return {
             username: user.username
         }
@@ -58,9 +72,12 @@ export class ProfileController {
     @Get('name')
     async getName(@Body() body: any): Promise<any> {
         const { userId } = body;
-        const user = await this.userRepository.findById(userId);
-        if(!user)
-            return new PreconditionFailedException('Id does not match any user');
+        let user: UserModel;
+        try{
+            user = await this.userRepository.findById(userId);
+        } catch {
+            throw new PreconditionFailedException('Id does not match any user');
+        }
         return {
             username: user.name
         }
@@ -77,7 +94,14 @@ export class ProfileController {
     @Get('picture')
     async getProfilePicture(@Body() body: any): Promise<PictureModel> {
         const { pictureId } = body;
-        const profilePicture = await this.pictureRepository.findById(pictureId);
-        return profilePicture
+        if(!pictureId) {
+            throw new HttpException('Arguments invalid.', HttpStatus.BAD_REQUEST);
+        }
+        try {
+            const profilePicture = await this.pictureRepository.findById(pictureId);
+            return profilePicture
+        } catch {
+            throw new HttpException('File not found', HttpStatus.NOT_FOUND);
+        }
     }
 }
