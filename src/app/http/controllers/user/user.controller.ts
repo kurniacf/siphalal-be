@@ -8,20 +8,23 @@ import { IPictureRepository } from "@app/core/repository/picture.repository.inte
 import { PictureModel } from "@app/core/models/picture.model";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { UserModel } from "@app/core/models/user.model";
+import { IUserGamificationRepository } from "@app/core/repository/userGamificatino.repository.interface";
 
-@Controller('profile')
-export class ProfileController {
+@Controller('user')
+export class UserController {
     constructor(
         @Inject("IUserRepository")
         private readonly userRepository: IUserRepository,
         @Inject("IPictureRepository")
-        private readonly pictureRepository: IPictureRepository
+        private readonly pictureRepository: IPictureRepository,
+        @Inject("IUserGamificationRepository")
+        private readonly userGamificationRepository: IUserGamificationRepository
     ) {}
 
     @Get()
     async check(): Promise<any> {
         return {
-            message: 'Profile controller is working'
+            message: 'User controller is working'
         };
     }
 
@@ -107,11 +110,27 @@ export class ProfileController {
         if(!pictureId) {
             throw new HttpException('Arguments invalid.', HttpStatus.BAD_REQUEST);
         }
+        let profilePicture
         try {
-            const profilePicture = await this.pictureRepository.findById(pictureId);
-            return profilePicture
+            profilePicture = await this.pictureRepository.findById(pictureId);
         } catch {
             throw new HttpException('File not found', HttpStatus.NOT_FOUND);
         }
+        return profilePicture;
+    }
+
+    @Get('gamification')
+    async getGamificationData(@Body() body: any): Promise<any> {
+        const { user_id } = body;
+        if(!user_id) {
+            throw new HttpException('Arguments invalid.', HttpStatus.BAD_REQUEST);
+        }
+        let userGamification;
+        try {
+            userGamification = await this.userGamificationRepository.findByUserId(user_id)
+        } catch {
+            throw new HttpException('id not found.', HttpStatus.NOT_FOUND);            
+        }
+        return userGamification;
     }
 }
