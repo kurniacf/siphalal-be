@@ -6,4 +6,5 @@ export interface IBadgeRepository {
 
     findById(id: string): Promise<any>;
 
+    findByUserId(id: string): Promise<any>;
 }

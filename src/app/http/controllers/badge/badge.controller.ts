@@ -17,12 +17,35 @@ export class BadgeController {
         };
     }
 
-    @Get(':badge_id')
-    async getBadge(@Param() params: any) {
-        if(!params.badge_id)
+    @Get('badge')
+    async getBadge(@Body() body: any) {
+        if(!body.badge_id)
             throw new HttpException('Badge Id not inputted', HttpStatus.BAD_REQUEST);
 
-        const badge = await this.badgeRepository.findById(params.badge_id);
+        let badge;
+
+        try {
+            badge = await this.badgeRepository.findById(body.badge_id);
+            if(!badge)
+                throw new HttpException('Badge not found.', HttpStatus.NOT_FOUND);
+            
+        } catch {
+            throw new HttpException('Badge not found.', HttpStatus.NOT_FOUND);
+        }
         return badge;
+    }
+
+    @Get('user')
+    async getBadgeByUser(@Body() body: any) {
+        if(!body.user_id)
+            throw new HttpException('User Id not inputted', HttpStatus.BAD_REQUEST);
+        let badges;
+        try{
+            badges = this.badgeRepository.findByUserId(body.user_id);
+        } catch{
+            throw new HttpException('Badge not found.', HttpStatus.NOT_FOUND);
+        }
+        
+        return badges;
     }
 }
