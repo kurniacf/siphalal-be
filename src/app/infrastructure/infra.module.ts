@@ -25,6 +25,7 @@ import {DaftarPermintaanSertifikasiQuery} from "./query/daftarPermintaanSertifik
 import { StatusSertifikasiRepository } from "./repository/statusSertifikasi.repository";
 import { UserGamificationRepository } from "./repository/userGamification.repository";
 import { PictureRepository } from "./repository/picture.repository";
+import { BadgeRepository } from "./repository/badge.repository";
 
 @Module({
     imports: [
@@ -71,6 +72,11 @@ import { PictureRepository } from "./repository/picture.repository";
             provide: "IPictureRepository",
             useClass: PictureRepository
         },
+        BadgeRepository,
+        {
+            provide: "IBadgeRepository",
+            useClass: BadgeRepository
+        },
     ],
     exports: [
         UserRepository,
@@ -95,6 +101,11 @@ import { PictureRepository } from "./repository/picture.repository";
         {
             provide: "IPictureRepository",
             useClass: PictureRepository
+        },
+        BadgeRepository,
+        {
+            provide: "IBadgeRepository",
+            useClass: BadgeRepository
         },
     ]
 })

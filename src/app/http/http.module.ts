@@ -14,6 +14,7 @@ import { XPController } from "./controllers/xp/xp.controller";
 import { TestController } from "./controllers/auth/test.controller";
 import {StatusSertifikasiController} from "./controllers/sertifikasi/statusSertifikasi.controller";
 import { ProfileController } from "./controllers/profile/profile.controller";
+import { BadgeController } from "./controllers/badge/badge.controller";
 
 @Module({
     imports: [
@@ -35,7 +36,8 @@ import { ProfileController } from "./controllers/profile/profile.controller";
         SertifikasiController,
         TestController,
         StatusSertifikasiController,
-        ProfileController
+        ProfileController,
+        BadgeController
     ],
 })
 export class HttpModule implements NestModule {
