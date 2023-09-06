@@ -10,8 +10,8 @@ import { FileInterceptor } from "@nestjs/platform-express";
 import { UserModel } from "@app/core/models/user.model";
 import { IUserGamificationRepository } from "@app/core/repository/userGamificatino.repository.interface";
 
-@Controller('profile')
-export class ProfileController {
+@Controller('user')
+export class UserController {
     constructor(
         @Inject("IUserRepository")
         private readonly userRepository: IUserRepository,
@@ -24,7 +24,7 @@ export class ProfileController {
     @Get()
     async check(): Promise<any> {
         return {
-            message: 'Profile controller is working'
+            message: 'User controller is working'
         };
     }
 

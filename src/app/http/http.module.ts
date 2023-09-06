@@ -13,7 +13,7 @@ import { SertifikasiController } from "./controllers/sertifikasi/sertifikasi.con
 import { XPController } from "./controllers/xp/xp.controller";
 import { TestController } from "./controllers/auth/test.controller";
 import {StatusSertifikasiController} from "./controllers/sertifikasi/statusSertifikasi.controller";
-import { ProfileController } from "./controllers/profile/profile.controller";
+import { UserController } from "./controllers/profile/user.controller";
 import { BadgeController } from "./controllers/badge/badge.controller";
 
 @Module({
@@ -36,7 +36,7 @@ import { BadgeController } from "./controllers/badge/badge.controller";
         SertifikasiController,
         TestController,
         StatusSertifikasiController,
-        ProfileController,
+        UserController,
         BadgeController
     ],
 })
