@@ -22,7 +22,6 @@ export class unlockNewBadgeCommand {
             req.visual_reference,
             new Date()
         )
-        console.log(badgeModel);
         this.badgeRepository.save(badgeModel);
     }
 }
