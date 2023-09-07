@@ -133,4 +133,19 @@ export class UserController {
         }
         return userGamification;
     }
+
+    @Get('profile')
+    async getUserData(@Body() body:any): Promise<any> {
+        const { user_id } = body;
+        if(!user_id) {
+            throw new HttpException('Arguments invalid.', HttpStatus.BAD_REQUEST);
+        }
+        let user;
+        try {
+            user = await this.userRepository.findById(user_id)
+        } catch {
+            throw new HttpException('id not found.', HttpStatus.NOT_FOUND);            
+        }
+        return user;
+    }
 }
