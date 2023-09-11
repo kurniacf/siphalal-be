@@ -33,7 +33,6 @@ export class UnlockNewBadgeCommand {
             user,
             new Date()
         )
-        console.log(badgeModel);
         this.badgeRepository.save(badgeModel);
     }
 }
