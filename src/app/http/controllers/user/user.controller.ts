@@ -1,9 +1,6 @@
-import { Controller, Post, Get, Body, Query, Put, UploadedFile, UseInterceptors, NotFoundException, HttpStatus, HttpException } from "@nestjs/common";
-// import { UserRepository } from "@app/infrastructure/repository/user.repository";
+import { Controller, Get, Body, Put, UploadedFile, UseInterceptors, HttpStatus, HttpException} from "@nestjs/common";
 import { IUserRepository } from "@app/core/repository/user.repository.interface";
-import { JwtService } from "@nestjs/jwt/dist";
 import { Request, Inject, PreconditionFailedException } from '@nestjs/common';
-import { MailerUtil } from '@app/utils/mailer.util';
 import { IPictureRepository } from "@app/core/repository/picture.repository.interface";
 import { PictureModel } from "@app/core/models/picture.model";
 import { FileInterceptor } from "@nestjs/platform-express";
@@ -21,7 +18,7 @@ export class UserController {
         private readonly userGamificationRepository: IUserGamificationRepository
     ) {}
 
-    @Get()
+    @Get('check')
     async check(): Promise<any> {
         return {
             message: 'User controller is working'
@@ -29,13 +26,14 @@ export class UserController {
     }
 
     @Put('username')
-    async changeUsername(@Body() body: any): Promise<any> {
-        const { userId, newUsername } = body;
-        if(!userId || !newUsername)
+    async changeUsername(@Request() req: any, @Body() body: any): Promise<any> {
+        const { newUsername } = body;
+        const { user_id } = req.user;
+        if(!user_id || !newUsername)
             throw new HttpException('Arguments invalid.', HttpStatus.BAD_REQUEST);
         let user: UserModel;
         try{
-            user = await this.userRepository.findById(userId);
+            user = await this.userRepository.findById(user_id);
         }
         catch{
             throw new HttpException('user not found.', HttpStatus.NOT_FOUND);
@@ -44,16 +42,19 @@ export class UserController {
             throw new HttpException('New username is the same as the last', HttpStatus.BAD_REQUEST);
         user.username = newUsername;
         this.userRepository.save(user);
+        return {
+            "message": "Success!"
+        };
     }
 
     @Get('username')
-    async getUsername(@Body() body: any): Promise<any> {
-        const { userId } = body;
-        if(!userId)
+    async getUsername(@Request() req: any): Promise<any> {
+        const { user_id } = req.user;
+        if(!user_id)
             throw new HttpException('Arguments invalid.', HttpStatus.BAD_REQUEST);
         let user: UserModel;
         try {
-            user = await this.userRepository.findById(userId);
+            user = await this.userRepository.findById(user_id);
         } catch {
             throw new PreconditionFailedException('Id does not match any user');
         }
@@ -63,26 +64,30 @@ export class UserController {
     }
 
     @Put('name')
-    async changeName(@Body() body: any): Promise<any> {
-        const { userId, newName } = body;
-        const user = await this.userRepository.findById(userId);
+    async changeName(@Request() req: any, @Body() body: any): Promise<any> {
+        const { newName } = body;
+        const { user_id } = req.user;
+        const user = await this.userRepository.findById(user_id);
         if(newName === user.name)
             throw new PreconditionFailedException('new name is the same as the last');
         user.name = newName;
         this.userRepository.save(user);
+        return {
+            "message": "Success!"
+        };
     }
 
     @Get('name')
-    async getName(@Body() body: any): Promise<any> {
-        const { userId } = body;
+    async getName(@Request() req: any): Promise<any> {
+        const { user_id } = req.user;
         let user: UserModel;
         try{
-            user = await this.userRepository.findById(userId);
+            user = await this.userRepository.findById(user_id);
         } catch {
             throw new PreconditionFailedException('Id does not match any user');
         }
         return {
-            username: user.name
+            name: user.name
         }
     }
 
@@ -120,8 +125,8 @@ export class UserController {
     }
 
     @Get('gamification')
-    async getGamificationData(@Body() body: any): Promise<any> {
-        const { user_id } = body;
+    async getGamificationData(@Request() req: any): Promise<any> {
+        const { user_id } = req.user;
         if(!user_id) {
             throw new HttpException('Arguments invalid.', HttpStatus.BAD_REQUEST);
         }
@@ -135,8 +140,8 @@ export class UserController {
     }
 
     @Get('profile')
-    async getUserData(@Body() body:any): Promise<any> {
-        const { user_id } = body;
+    async getUserData(@Request() req: any): Promise<any> {
+        const { user_id } = req.user;
         if(!user_id) {
             throw new HttpException('Arguments invalid.', HttpStatus.BAD_REQUEST);
         }
@@ -150,8 +155,9 @@ export class UserController {
     }
 
     @Get('alldata')
-    async GetAllUserData(@Body() body:any): Promise<any> {
-        const { user_id } = body;
+    async GetAllUserData(@Request() req:any): Promise<any> {
+        const { user_id } = req.user;
+        console.log(user_id);
         if(!user_id) {
             throw new HttpException('Arguments invalid.', HttpStatus.BAD_REQUEST);
         }

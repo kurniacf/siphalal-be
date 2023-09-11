@@ -15,6 +15,7 @@ import { TestController } from "./controllers/auth/test.controller";
 import {StatusSertifikasiController} from "./controllers/sertifikasi/statusSertifikasi.controller";
 import { UserController } from "./controllers/user/user.controller";
 import { BadgeController } from "./controllers/badge/badge.controller";
+import { LeaderboardController } from "./controllers/leaderboard/leaderboard.controller";
 
 @Module({
     imports: [
@@ -37,7 +38,8 @@ import { BadgeController } from "./controllers/badge/badge.controller";
         TestController,
         StatusSertifikasiController,
         UserController,
-        BadgeController
+        BadgeController,
+        LeaderboardController
     ],
 })
 export class HttpModule implements NestModule {
@@ -55,6 +57,11 @@ export class HttpModule implements NestModule {
             .forRoutes(
                 AuthController,
                 SertifikasiController,
+                UserController,
+                BadgeController,
+                LeaderboardController,
+                XPController,
+                UserController
             );
     }
 }
