@@ -13,6 +13,7 @@ import { dataSedekahs } from "./dataSedekah.seed";
 import { dataStatusSertifikasis } from "./dataStatusSertifikasi.seed";
 import { dataSurgaKuliners } from "./dataSurgaKuliner.seed";
 import { dataUMKMs } from "./dataUMKM.seed";
+import { dataLeaderboards } from "./dataLeaderboard.seed";
 
 import { UserModelMongo } from "@app/infrastructure/schemas/user.schema";
 import { UserGamificationModelMongo } from "@app/infrastructure/schemas/userGamification.schema";
@@ -29,6 +30,7 @@ import { SedekahModelMongo } from "@app/infrastructure/schemas/sedekah.schema";
 import { StatusSertifikasiModelMongo } from "@app/infrastructure/schemas/statusSertifikasi.schema";
 import { SurgaKulinerModelMongo } from "@app/infrastructure/schemas/surgaKuliner.schema";
 import { UMKMModelMongo } from "@app/infrastructure/schemas/umkm.schema";
+import { LeaderboardModelMongo } from "@app/infrastructure/schemas/leaderboard.schema";
 
 import mongoose from "mongoose";
 import { ObjectId as MongooseObjectId } from "mongodb";
@@ -155,6 +157,12 @@ export const seed = async () => {
         }
         console.log('UMKM data inserted ✅');
 
+        //insert leaderboard data
+        for(const dataLeaderboard of dataLeaderboards){
+            const leaderboardModel = new LeaderboardModelMongo(dataLeaderboard);
+            await leaderboardModel.save();
+        }
+        console.log('Leaderboard data inserted ✅');
 
         console.log('All seed success 🌱');
     }

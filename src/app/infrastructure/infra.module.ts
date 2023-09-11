@@ -26,6 +26,8 @@ import { StatusSertifikasiRepository } from "./repository/statusSertifikasi.repo
 import { UserGamificationRepository } from "./repository/userGamification.repository";
 import { PictureRepository } from "./repository/picture.repository";
 import { BadgeRepository } from "./repository/badge.repository";
+import { LeaderBoardRepository } from "./repository/leaderboard.repository";
+import { LeaderboardSchema } from "./schemas/leaderboard.schema";
 
 @Module({
     imports: [
@@ -45,7 +47,8 @@ import { BadgeRepository } from "./repository/badge.repository";
             { name: "Sedekah", schema: SedekahSchema },
             { name: "StatusSertifikasi", schema: StatusSertifikasiSchema },
             { name: "SurgaKuliner", schema: SurgaKulinerSchema },
-            { name: "UMKM", schema: UMKMSchema }
+            { name: "UMKM", schema: UMKMSchema },
+            { name: "Leaderboard", schema: LeaderboardSchema}
         ])
     ],
     providers: [
@@ -77,6 +80,11 @@ import { BadgeRepository } from "./repository/badge.repository";
             provide: "IBadgeRepository",
             useClass: BadgeRepository
         },
+        LeaderBoardRepository,
+        {
+            provide: "ILeaderboardRepository",
+            useClass: LeaderBoardRepository
+        },
     ],
     exports: [
         UserRepository,
@@ -106,6 +114,11 @@ import { BadgeRepository } from "./repository/badge.repository";
         {
             provide: "IBadgeRepository",
             useClass: BadgeRepository
+        },
+        LeaderBoardRepository,
+        {
+            provide: "ILeaderboardRepository",
+            useClass: LeaderBoardRepository
         },
     ]
 })

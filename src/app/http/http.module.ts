@@ -61,7 +61,8 @@ export class HttpModule implements NestModule {
                 BadgeController,
                 LeaderboardController,
                 XPController,
-                UserController
+                UserController,
+                LeaderboardController
             );
     }
 }
