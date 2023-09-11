@@ -1,5 +1,5 @@
 import { IUserGamificationRepository } from "@app/core/repository/userGamificatino.repository.interface";
-import { Controller, Get, Param, Inject, Put, Body } from "@nestjs/common";
+import { Controller, Get, Param, Inject, Put, Body, Request } from "@nestjs/common";
 import { HttpStatus } from "@nestjs/common/enums";
 import { HttpException } from "@nestjs/common/exceptions";
 
@@ -10,17 +10,17 @@ export class XPController {
         private readonly userGamificationRepository: IUserGamificationRepository
     ){}
 
-    @Get()
+    @Get('check')
     async check(): Promise<{message: string}>{
         return {
-            message: "Jalan"
+            message: "XPController is running"
         }
     }
 
-    @Get(':user_id')
-    async getXPByUserID(@Param() params: any): Promise<any>{
+    @Get()
+    async getXPByUserID(@Request() req: any): Promise<any>{
         try{
-            const userGamificationData = await this.userGamificationRepository.findByUserId(params.user_id);
+            const userGamificationData = await this.userGamificationRepository.findByUserId(req.user.user_id);
             return {
                 "xp" : userGamificationData.currentXp
             }
@@ -30,9 +30,9 @@ export class XPController {
         }
     }
 
-    @Put(':user_id')
-    async updateXP(@Param() params: any, @Body() body): Promise<any>{
-        const userGamification = await this.userGamificationRepository.findByUserId(params.user_id);
+    @Put()
+    async updateXP(@Request() req: any, @Body() body): Promise<any>{
+        const userGamification = await this.userGamificationRepository.findByUserId(req.user.user_id);
         const { addXP } = body;
         const addXPNum = parseInt(addXP)
         if(Number.isNaN(addXPNum))
