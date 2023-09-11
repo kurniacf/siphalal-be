@@ -1,4 +1,4 @@
-export type unlockNewBadgeRequest = {
+export type UnlockNewBadgeRequest = {
     user_id: string;
     badge_type: string;
     badge_tier: number;
